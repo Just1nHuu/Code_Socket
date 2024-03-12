@@ -23,26 +23,38 @@ namespace SocketServerStart
             listenerSocket.Bind(ipep);
 
             listenerSocket.Listen(5);
-            
+
             Console.WriteLine("About to accept incoming connected.");
 
             Socket client = listenerSocket.Accept();
-            
+
             Console.WriteLine("client connected." + client.ToString() + "-IP End Point: " + client.RemoteEndPoint.ToString());
 
             byte[] buff = new byte[128];
 
             int numberOfReceivedBytes = 0;
 
-            numberOfReceivedBytes = client.Receive(buff);
+            Console.WriteLine("Data sent by client is :");
 
-            Console.WriteLine("Number of received byte: " + numberOfReceivedBytes);
+            while (true)
+            {
+                numberOfReceivedBytes = client.Receive(buff);
 
-            Console.WriteLine("Data sent  by client is: " + buff);
+                string receivedText = Encoding.ASCII.GetString(buff, 0, numberOfReceivedBytes);
 
-            string receivedText = Encoding.ASCII.GetString(buff,0,numberOfReceivedBytes);
+                Console.WriteLine(receivedText);
 
-            Console.WriteLine("Data sent by client is :" + receivedText);
+                client.Send(buff);
+
+                if(receivedText == "x")
+                {
+                    break;
+                }
+
+                Array.Clear(buff,0, numberOfReceivedBytes);
+
+                numberOfReceivedBytes = 0;
+            }
         }
     }
 }
