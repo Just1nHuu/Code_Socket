@@ -24,15 +24,17 @@ namespace SocketServerStart
 
             listenerSocket.Listen(5);
             
-            Console.WriteLine("Accept connected");
+            Console.WriteLine("About to accept incoming connected.");
 
             Socket client = listenerSocket.Accept();
             
             Console.WriteLine("client connected." + client.ToString() + "-IP End Point: " + client.RemoteEndPoint.ToString());
 
-            byte[] buff = new byte[1024];
+            byte[] buff = new byte[128];
 
             int numberOfReceivedBytes = 0;
+
+            numberOfReceivedBytes = client.Receive(buff);
 
             Console.WriteLine("Number of received byte: " + numberOfReceivedBytes);
 
@@ -41,7 +43,6 @@ namespace SocketServerStart
             string receivedText = Encoding.ASCII.GetString(buff,0,numberOfReceivedBytes);
 
             Console.WriteLine("Data sent by client is :", receivedText);
-
         }
     }
 }
