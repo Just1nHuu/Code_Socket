@@ -42,7 +42,7 @@ namespace SocketServerStart
 
             string receivedText = Encoding.ASCII.GetString(buff,0,numberOfReceivedBytes);
 
-            Console.WriteLine("Data sent by client is :", receivedText);
+            Console.WriteLine("Data sent by client is :" + receivedText);
         }
     }
 }
